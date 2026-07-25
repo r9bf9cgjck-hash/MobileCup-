@@ -10,21 +10,24 @@
 <style>
 
 *{
+box-sizing:border-box;
 margin:0;
 padding:0;
-box-sizing:border-box;
-user-select:none;
 touch-action:none;
+user-select:none;
 }
+
 
 body{
 
-background:#101820;
+background:#111;
 
 height:100vh;
 
 display:flex;
+
 justify-content:center;
+
 align-items:center;
 
 font-family:Arial;
@@ -37,26 +40,28 @@ font-family:Arial;
 position:relative;
 
 width:390px;
-height:650px;
+
+height:700px;
+
+overflow:hidden;
 
 }
+
 
 
 canvas{
 
 position:absolute;
 
-left:0;
 top:0;
+left:0;
 
 width:390px;
 height:500px;
 
-background:#278a3b;
+background:#238b45;
 
 border:3px solid white;
-
-border-radius:15px;
 
 }
 
@@ -66,10 +71,15 @@ border-radius:15px;
 
 position:absolute;
 
+top:0;
+left:0;
+
 width:100%;
 height:100%;
 
-background:rgba(0,0,0,.85);
+background:rgba(0,0,0,.9);
+
+color:white;
 
 display:flex;
 
@@ -77,31 +87,30 @@ flex-direction:column;
 
 align-items:center;
 
-justify-content:center;
+padding-top:15px;
 
-color:white;
+overflow-y:auto;
 
 z-index:10;
-
-overflow:auto;
 
 }
 
 
+
 h1{
 
-font-size:40px;
+font-size:32px;
 
 color:#ffd700;
 
-margin-bottom:15px;
+margin-bottom:10px;
 
 }
 
 
 h3{
 
-margin:8px;
+margin:6px;
 
 }
 
@@ -109,23 +118,20 @@ margin:8px;
 
 .option{
 
-width:320px;
-
-padding:12px;
-
-margin:5px;
+width:280px;
 
 background:#333;
 
-border-radius:15px;
+padding:10px;
+
+margin:3px;
+
+border-radius:12px;
 
 text-align:center;
 
-font-size:18px;
-
-border:2px solid transparent;
-
 }
+
 
 
 .option.selected{
@@ -134,25 +140,23 @@ background:#ffd700;
 
 color:black;
 
-border-color:white;
-
 }
 
 
 
 button{
 
-border:none;
+padding:12px 30px;
 
-border-radius:30px;
+margin:6px;
 
-padding:14px 35px;
+border:0;
+
+border-radius:25px;
 
 font-size:18px;
 
 font-weight:bold;
-
-margin:8px;
 
 }
 
@@ -160,11 +164,12 @@ margin:8px;
 
 #startBtn{
 
-background:#4caf50;
+background:#22aa44;
 
 color:white;
 
 }
+
 
 
 #careerBtn{
@@ -202,42 +207,46 @@ z-index:5;
 display:none!important;
 
 }
-  #joystick{
+
+
+
+#joystick{
 
 position:absolute;
 
-left:20px;
-
 bottom:20px;
+
+left:20px;
 
 width:120px;
 
 height:120px;
 
-background:rgba(255,255,255,.25);
-
 border-radius:50%;
+
+background:rgba(255,255,255,.25);
 
 z-index:20;
 
 }
 
 
+
 #stick{
 
 position:absolute;
-
-left:35px;
-
-top:35px;
 
 width:50px;
 
 height:50px;
 
-background:white;
+left:35px;
+
+top:35px;
 
 border-radius:50%;
+
+background:white;
 
 }
 
@@ -247,15 +256,15 @@ border-radius:50%;
 
 position:absolute;
 
-right:25px;
+right:20px;
+
+width:75px;
+
+height:75px;
 
 border-radius:50%;
 
-width:80px;
-
-height:80px;
-
-font-size:28px;
+font-size:25px;
 
 z-index:20;
 
@@ -263,19 +272,9 @@ z-index:20;
 
 
 
-#shoot{
-
-bottom:45px;
-
-background:#ffd700;
-
-}
-
-
-
 #pass{
 
-bottom:140px;
+bottom:130px;
 
 background:#00bfff;
 
@@ -283,7 +282,17 @@ background:#00bfff;
 
 
 
+#shoot{
+
+bottom:35px;
+
+background:#ffd700;
+
+}
+
+
 </style>
+
 
 </head>
 
@@ -301,10 +310,10 @@ background:#00bfff;
 <div id="menu">
 
 
-<h1>⚽ MatchCup</h1>
+<h1>⚽ MatchCupMobile</h1>
 
 
-<h3>Команда</h3>
+<h3>Выбери команду</h3>
 
 
 <div class="option selected" data-team="aziz">
@@ -367,7 +376,7 @@ background:#00bfff;
 
 
 <button id="startBtn">
-Играть
+▶ Играть
 </button>
 
 
@@ -395,8 +404,8 @@ background:#00bfff;
 <span id="scoreB">0</span> 🔵
 </div>
 
-</div>
 
+</div>
 
 
 
@@ -405,7 +414,6 @@ background:#00bfff;
 <div id="stick"></div>
 
 </div>
-
 
 
 <button id="pass" class="control">
