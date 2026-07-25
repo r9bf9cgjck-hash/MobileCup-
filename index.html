@@ -17,10 +17,10 @@ user-select:none;
 touch-action:none;
 }
 
-
 body{
 
 background:#101820;
+
 height:100vh;
 
 display:flex;
@@ -32,16 +32,14 @@ font-family:Arial;
 }
 
 
-
 #game{
 
 position:relative;
 
 width:390px;
-height:700px;
+height:650px;
 
 }
-
 
 
 canvas{
@@ -52,12 +50,13 @@ left:0;
 top:0;
 
 width:390px;
-height:700px;
+height:500px;
 
-background:#2e7d32;
+background:#278a3b;
 
-border:4px solid white;
-border-radius:20px;
+border:3px solid white;
+
+border-radius:15px;
 
 }
 
@@ -67,31 +66,31 @@ border-radius:20px;
 
 position:absolute;
 
-left:0;
-top:0;
-
 width:100%;
 height:100%;
 
-background:rgba(0,0,0,.88);
+background:rgba(0,0,0,.85);
 
 display:flex;
+
 flex-direction:column;
 
 align-items:center;
+
 justify-content:center;
 
 color:white;
 
 z-index:10;
 
-}
+overflow:auto;
 
+}
 
 
 h1{
 
-font-size:42px;
+font-size:40px;
 
 color:#ffd700;
 
@@ -100,46 +99,21 @@ margin-bottom:15px;
 }
 
 
+h3{
 
-.card{
-
-width:320px;
-
-padding:15px;
-
-margin:6px;
-
-background:rgba(255,255,255,.15);
-
-border:2px solid transparent;
-
-border-radius:18px;
-
-text-align:center;
-
-font-size:18px;
+margin:8px;
 
 }
 
 
 
-.card.selected{
-
-border-color:#ffd700;
-
-background:rgba(255,215,0,.3);
-
-}
-
-
-
-.level{
+.option{
 
 width:320px;
 
-padding:10px;
+padding:12px;
 
-margin:4px;
+margin:5px;
 
 background:#333;
 
@@ -147,15 +121,20 @@ border-radius:15px;
 
 text-align:center;
 
+font-size:18px;
+
+border:2px solid transparent;
+
 }
 
 
-
-.level.selected{
+.option.selected{
 
 background:#ffd700;
 
 color:black;
+
+border-color:white;
 
 }
 
@@ -163,17 +142,17 @@ color:black;
 
 button{
 
-margin-top:15px;
+border:none;
 
-padding:15px 40px;
+border-radius:30px;
 
-border:0;
-
-border-radius:40px;
+padding:14px 35px;
 
 font-size:18px;
 
 font-weight:bold;
+
+margin:8px;
 
 }
 
@@ -186,7 +165,6 @@ background:#4caf50;
 color:white;
 
 }
-
 
 
 #careerBtn{
@@ -202,8 +180,6 @@ background:#ffd700;
 position:absolute;
 
 top:10px;
-
-left:0;
 
 width:100%;
 
@@ -230,9 +206,9 @@ display:none!important;
 
 position:absolute;
 
-left:25px;
+left:20px;
 
-bottom:35px;
+bottom:20px;
 
 width:120px;
 
@@ -245,7 +221,6 @@ border-radius:50%;
 z-index:20;
 
 }
-
 
 
 #stick{
@@ -268,25 +243,41 @@ border-radius:50%;
 
 
 
-#shoot{
+.control{
 
 position:absolute;
 
-right:30px;
-
-bottom:55px;
-
-width:85px;
-
-height:85px;
+right:25px;
 
 border-radius:50%;
 
-background:#ffd700;
+width:80px;
 
-font-size:30px;
+height:80px;
+
+font-size:28px;
 
 z-index:20;
+
+}
+
+
+
+#shoot{
+
+bottom:45px;
+
+background:#ffd700;
+
+}
+
+
+
+#pass{
+
+bottom:140px;
+
+background:#00bfff;
 
 }
 
@@ -303,7 +294,7 @@ z-index:20;
 <div id="game">
 
 
-<canvas id="canvas"></canvas>
+<canvas id="canvas" width="800" height="500"></canvas>
 
 
 
@@ -313,34 +304,45 @@ z-index:20;
 <h1>⚽ MatchCup</h1>
 
 
-<h3>Выбери команду</h3>
+<h3>Команда</h3>
 
 
-<div class="card" data-team="aziz">
-
-🔥 Азиз + ⚔️ Хабиб
-
+<div class="option selected" data-team="aziz">
+🔥 Азиз + Хабиб
 </div>
 
 
-<div class="card" data-team="abdul">
-
-🦁 Абдул + ⚡ Мухаммад
-
+<div class="option" data-team="abdul">
+🦁 Абдул + Мухаммад
 </div>
 
 
-<div class="card" data-team="shamil">
-
-🛡 Шамиль + 🛡 Шамиль Jr
-
+<div class="option" data-team="shamil">
+🛡 Шамиль + Шамиль Jr
 </div>
 
 
-<div class="card" data-team="muhammad">
+<div class="option" data-team="muhammad">
+⚡ Мухаммад + Мухаммад Jr
+</div>
 
-⚡ Мухаммад + ⚡ Мухаммад Jr
 
+
+<h3>Режим</h3>
+
+
+<div class="option selected" data-mode="2">
+⚽ 2 VS 2
+</div>
+
+
+<div class="option" data-mode="3">
+🥅 3 VS 3
+</div>
+
+
+<div class="option" data-mode="4">
+🏟 4 VS 4
 </div>
 
 
@@ -348,41 +350,29 @@ z-index:20;
 <h3>Сложность</h3>
 
 
-<div class="level selected" data-level="easy">
-
+<div class="option selected" data-level="easy">
 🟢 Лёгкая
-
 </div>
 
 
-<div class="level" data-level="normal">
-
+<div class="option" data-level="normal">
 🟡 Средняя
-
 </div>
 
 
-<div class="level" data-level="hard">
-
+<div class="option" data-level="hard">
 🔴 Сложная
-
 </div>
-
 
 
 
 <button id="startBtn">
-
-⚽ Играть 2 VS 2
-
+Играть
 </button>
 
 
-
 <button id="careerBtn">
-
 🏆 Карьера
-
 </button>
 
 
@@ -393,21 +383,17 @@ z-index:20;
 
 <div id="hud" class="hidden">
 
-
 <div>
 🔴 <span id="scoreA">0</span>
 </div>
-
 
 <div>
 ⏱ <span id="time">60</span>
 </div>
 
-
 <div>
 <span id="scoreB">0</span> 🔵
 </div>
-
 
 </div>
 
@@ -422,16 +408,18 @@ z-index:20;
 
 
 
-<button id="shoot">
+<button id="pass" class="control">
+🟦
+</button>
 
+
+<button id="shoot" class="control">
 ⚽
-
 </button>
 
 
 
 </div>
-
 
 
 
