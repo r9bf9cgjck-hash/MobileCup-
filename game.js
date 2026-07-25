@@ -724,3 +724,60 @@ playing=true;
 
 
 loop();
+let selectedTeam = "aziz";
+let difficulty = "easy";
+
+document.querySelectorAll(".team").forEach(team=>{
+
+team.onclick=function(){
+
+document.querySelectorAll(".team")
+.forEach(t=>t.classList.remove("selected"));
+
+team.classList.add("selected");
+
+selectedTeam = team.dataset.team;
+
+console.log("Команда:", selectedTeam);
+
+};
+
+});
+
+
+document.querySelectorAll(".difficulty").forEach(level=>{
+
+level.onclick=function(){
+
+document.querySelectorAll(".difficulty")
+.forEach(t=>t.classList.remove("selected"));
+
+level.classList.add("selected");
+
+difficulty = level.dataset.level;
+
+console.log("Сложность:", difficulty);
+
+};
+
+});
+
+
+
+document.getElementById("startBtn").onclick=function(){
+
+document.getElementById("menu")
+.classList.add("hidden");
+
+
+document.getElementById("hud")
+.classList.remove("hidden");
+
+
+console.log(
+"Старт игры",
+selectedTeam,
+difficulty
+);
+
+};
