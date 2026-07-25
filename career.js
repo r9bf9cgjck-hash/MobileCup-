@@ -1,51 +1,43 @@
-let career = {
+let career={
 
-    level:1,
-    xp:0,
-    coins:0,
+level:1,
 
-    wins:0,
-    goals:0,
+xp:0,
 
-    season:1,
+coins:0,
 
-    player:selectedHero
+wins:0,
+
+goals:0,
+
+season:1
 
 };
 
 
 
-// =======================
-// ЗАГРУЗКА
-// =======================
-
+// загрузка
 
 function loadCareer(){
 
-let data = localStorage.getItem("matchcup_career");
+let save=
+localStorage.getItem("matchcup_career");
 
 
-if(data){
+if(save){
 
-career = JSON.parse(data);
-
-}
-
+career=JSON.parse(save);
 
 }
 
+}
 
 
 loadCareer();
 
 
 
-
-
-// =======================
-// СОХРАНЕНИЕ
-// =======================
-
+// сохранение
 
 function saveCareer(){
 
@@ -58,212 +50,102 @@ JSON.stringify(career)
 
 
 
+// опыт
 
-// =======================
-// ДОБАВИТЬ ОПЫТ
-// =======================
-
-
-function addXP(amount){
+function addXP(value){
 
 
-career.xp += amount;
+career.xp+=value;
 
 
-
-let need = career.level * 300;
-
+let need=career.level*200;
 
 
-if(career.xp >= need){
+if(career.xp>=need){
 
 
 career.level++;
 
 career.xp=0;
 
-
 career.coins+=100;
 
 
-
 alert(
-"🎉 Новый уровень!\nУровень: "
-+career.level
+"🎉 Новый уровень!\n"+
+"Уровень: "+career.level
 );
 
 
 }
 
 
-
 saveCareer();
-
 
 }
 
 
 
+// победа
 
-// =======================
-// ПОБЕДА
-// =======================
-
-
-function careerWin(){
+function winCareer(){
 
 
 career.wins++;
 
 career.coins+=50;
 
-
-addXP(150);
-
-
-saveCareer();
-
+addXP(100);
 
 }
 
 
 
+// гол
 
-
-// =======================
-// ГОЛ
-// =======================
-
-
-function careerGoal(){
+function goalCareer(){
 
 
 career.goals++;
 
 career.coins+=10;
 
-
-addXP(30);
-
+addXP(20);
 
 }
 
 
 
-
-
-// =======================
-// НОВЫЙ СЕЗОН
-// =======================
-
-
-function nextSeason(){
-
-
-career.season++;
-
-
-career.coins+=200;
-
-
-saveCareer();
-
-
-}
-
-
-
-
-
-// =======================
-// ОКНО КАРЬЕРЫ
-// =======================
-
+// окно карьеры
 
 document
 .getElementById("careerBtn")
 .onclick=function(){
 
 
-let text = `
+alert(
 
-🏆 MATCH CUP КАРЬЕРА
+"🏆 MATCH CUP КАРЬЕРА\n\n"+
 
+"⭐ Уровень: "+
+career.level+
 
-⭐ Уровень: ${career.level}
+"\n\n⚡ Опыт: "+
+career.xp+
 
+"\n\n🪙 Монеты: "+
+career.coins+
 
-⚡ Опыт:
-${career.xp}/${career.level*300}
+"\n\n🏟 Победы: "+
+career.wins+
 
+"\n\n⚽ Голы: "+
+career.goals+
 
-🪙 Монеты:
-${career.coins}
+"\n\n📅 Сезон: "+
+career.season
 
-
-🏟 Победы:
-${career.wins}
-
-
-⚽ Голы:
-${career.goals}
-
-
-📅 Сезон:
-${career.season}
-
-`;
-
-
-alert(text);
+);
 
 
 };
-
-
-
-
-
-// =======================
-// ПРОКАЧКА
-// =======================
-
-
-function upgradePlayer(){
-
-
-if(career.coins>=100){
-
-
-career.coins-=100;
-
-
-heroes[selectedHero].power+=5;
-
-heroes[selectedHero].speed+=0.2;
-
-
-
-alert(
-"🔥 Игрок улучшен!"
-);
-
-
-
-saveCareer();
-
-
-}
-
-else{
-
-
-alert(
-"Недостаточно монет"
-);
-
-
-}
-
-
-}
