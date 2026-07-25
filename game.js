@@ -1,91 +1,196 @@
-const canvas = document.getElementById("gameCanvas");
+const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-const W = 600;
-const H = 800;
+const W = 390;
+const H = 700;
 
 
-// ======================
-// НАСТРОЙКИ ИГРЫ
-// ======================
+// =====================
+// СОСТОЯНИЕ
+// =====================
+
+let selectedTeam = "aziz";
+let difficulty = "easy";
 
 let playing = false;
 
 let scoreA = 0;
 let scoreB = 0;
 
-let timeLeft = 60;
+let time = 60;
 
 let timer;
 
 
-// ======================
-// ИГРОКИ
-// ======================
+// =====================
+// КОМАНДЫ
+// =====================
 
-const heroes = {
+const teams = {
 
 aziz:{
+name:"Азиз + Хабиб",
+players:[
+{
 name:"Азиз",
+color:"#ff9900",
 speed:6,
-power:95,
-color:"#ff9900"
+power:95
 },
+{
+name:"Хабиб",
+color:"#ff3333",
+speed:5,
+power:90
+}
+]
+},
+
 
 abdul:{
+name:"Абдул + Мухаммад",
+players:[
+{
 name:"Абдул",
+color:"#ffcc00",
 speed:6,
-power:80,
-color:"#ffcc00"
+power:80
 },
+{
+name:"Мухаммад",
+color:"#00ccff",
+speed:7,
+power:90
+}
+]
+},
+
+
+shamil:{
+name:"Шамиль + Шамиль Jr",
+players:[
+{
+name:"Шамиль",
+color:"#0066ff",
+speed:5,
+power:85
+},
+{
+name:"Шамиль Jr",
+color:"#3399ff",
+speed:7,
+power:90
+}
+]
+},
+
 
 muhammad:{
+name:"Мухаммад + Мухаммад Jr",
+players:[
+{
 name:"Мухаммад",
+color:"#00ffff",
 speed:7,
-power:90,
-color:"#00ccff"
+power:90
 },
-
-muhammadjr:{
+{
 name:"Мухаммад Jr",
+color:"#66ffff",
 speed:8,
-power:85,
-color:"#66ffff"
+power:95
+}
+]
 }
 
 };
 
 
-let selectedHero="aziz";
+
+// =====================
+// ВЫБОР КОМАНДЫ
+// =====================
 
 
-// ======================
-// МЯЧ
-// ======================
+document.querySelectorAll(".card")
+.forEach(card=>{
+
+
+card.onclick=function(){
+
+
+document.querySelectorAll(".card")
+.forEach(c=>c.classList.remove("selected"));
+
+
+card.classList.add("selected");
+
+
+selectedTeam = card.dataset.team;
+
+
+};
+
+});
+
+
+
+
+
+document.querySelectorAll(".level")
+.forEach(level=>{
+
+
+level.onclick=function(){
+
+
+document.querySelectorAll(".level")
+.forEach(l=>l.classList.remove("selected"));
+
+
+level.classList.add("selected");
+
+
+difficulty = level.dataset.level;
+
+
+};
+
+});
+
+
+
+// =====================
+// ПОЛЕ
+// =====================
+
+let players=[];
+
 
 let ball={
 
-x:300,
-y:400,
+x:195,
+y:350,
+
 vx:0,
 vy:0,
+
 r:10
 
 };
 
 
 
-// ======================
-// ИГРОКИ НА ПОЛЕ
-// ======================
-
-let players=[];
-
+// =====================
+// СОЗДАНИЕ МАТЧА
+// =====================
 
 
 function createMatch(){
 
-let hero = heroes[selectedHero];
+
+let myTeam = teams[selectedTeam];
+
 
 
 players=[
@@ -94,223 +199,187 @@ players=[
 {
 team:"A",
 human:true,
-name:hero.name,
-x:150,
-y:400,
-r:25,
-speed:hero.speed,
-power:hero.power,
-color:hero.color
+
+name:myTeam.players[0].name,
+
+x:100,
+y:350,
+
+speed:myTeam.players[0].speed,
+
+power:myTeam.players[0].power,
+
+color:myTeam.players[0].color,
+
+r:24
+
 },
+
 
 
 {
 team:"A",
 human:false,
-name:"Союзник",
-x:150,
-y:250,
-r:25,
+
+name:myTeam.players[1].name,
+
+x:100,
+y:200,
+
 speed:5,
+
 power:80,
-color:"#ff4444"
-},
 
+color:myTeam.players[1].color,
 
-{
-team:"B",
-human:false,
-name:"Соперник",
-x:450,
-y:400,
-r:25,
-speed:5,
-power:80,
-color:"#2255ff"
-},
+r:24
 
-
-{
-team:"B",
-human:false,
-name:"Соперник Jr",
-x:450,
-y:550,
-r:25,
-speed:6,
-power:85,
-color:"#003399"
 }
-
 
 ];
 
 
+
+// выбираем соперника
+
+
+let enemy;
+
+
+if(selectedTeam==="aziz")
+enemy="shamil";
+
+else
+enemy="aziz";
+
+
+
+let enemyTeam=teams[enemy];
+
+
+
+players.push(
+
+{
+team:"B",
+human:false,
+
+name:enemyTeam.players[0].name,
+
+x:290,
+y:350,
+
+speed:5,
+
+power:80,
+
+color:enemyTeam.players[0].color,
+
+r:24
+
+},
+
+
+{
+team:"B",
+human:false,
+
+name:enemyTeam.players[1].name,
+
+x:290,
+y:500,
+
+speed:5,
+
+power:80,
+
+color:enemyTeam.players[1].color,
+
+r:24
+
+}
+
+);
+
+
+
 resetBall();
-
-timeLeft=60;
-
 
 startTimer();
 
-}
-
-
-
-
-function resetBall(){
-
-ball.x=300;
-ball.y=400;
-ball.vx=0;
-ball.vy=0;
 
 }
-
-
-
-// ======================
-// ТАЙМЕР
-// ======================
-
-function startTimer(){
-
-clearInterval(timer);
-
-
-timer=setInterval(()=>{
-
-
-if(!playing)return;
-
-
-timeLeft--;
-
-
-let clock=document.getElementById("time");
-
-
-if(clock)
-clock.innerText=timeLeft;
-
-
-
-if(timeLeft<=0){
-
-playing=false;
-
-alert(
-"Матч окончен!\n"+
-scoreA+" : "+scoreB
-);
-
-}
-
-
-
-},1000);
-
-}
-
-
-
-// ======================
+// =====================
 // ДЖОЙСТИК
-// ======================
+// =====================
 
-let joystick={
-
+let joystick = {
 x:0,
 y:0
-
 };
 
 
-let joy=document.getElementById("joystick");
-let stick=document.getElementById("stick");
-
+let joy = document.getElementById("joystick");
+let stick = document.getElementById("stick");
 
 
 if(joy){
 
-
-joy.addEventListener(
-"touchmove",
-function(e){
-
+joy.addEventListener("touchmove", e=>{
 
 let touch=e.touches[0];
 
 let rect=joy.getBoundingClientRect();
 
 
-let x=
-touch.clientX-(rect.left+60);
+let x=touch.clientX-(rect.left+60);
+let y=touch.clientY-(rect.top+60);
 
 
-let y=
-touch.clientY-(rect.top+60);
+let d=Math.sqrt(x*x+y*y);
 
 
+if(d>50){
 
-let dist=Math.sqrt(
-x*x+y*y
-);
-
-
-
-if(dist>45){
-
-x=x/dist*45;
-y=y/dist*45;
+x=x/d*50;
+y=y/d*50;
 
 }
-
 
 
 stick.style.left=(35+x)+"px";
 stick.style.top=(35+y)+"px";
 
 
-joystick.x=x/45;
-joystick.y=y/45;
-
+joystick.x=x/50;
+joystick.y=y/50;
 
 
 });
 
 
-
-joy.addEventListener(
-"touchend",
-function(){
-
+joy.addEventListener("touchend",()=>{
 
 joystick.x=0;
 joystick.y=0;
 
-
 stick.style.left="35px";
 stick.style.top="35px";
-
 
 });
 
 
 }
-// ======================
+
+
+
+
+// =====================
 // УДАР
-// ======================
+// =====================
 
-let shoot=document.getElementById("shoot");
-
-
-if(shoot){
-
-shoot.addEventListener(
-"touchstart",
-function(){
-
+document.getElementById("shoot")
+.onclick=function(){
 
 let me=players[0];
 
@@ -319,10 +388,7 @@ let dx=ball.x-me.x;
 let dy=ball.y-me.y;
 
 
-let d=Math.sqrt(
-dx*dx+dy*dy
-);
-
+let d=Math.sqrt(dx*dx+dy*dy);
 
 
 if(d<80){
@@ -332,17 +398,60 @@ ball.vy=dy/d*12;
 
 }
 
+};
 
-});
+
+
+
+// =====================
+// ТАЙМЕР
+// =====================
+
+function startTimer(){
+
+clearInterval(timer);
+
+
+time=60;
+
+
+timer=setInterval(()=>{
+
+
+if(!playing)return;
+
+
+time--;
+
+
+document.getElementById("time").innerText=time;
+
+
+if(time<=0){
+
+playing=false;
+
+
+alert(
+"Матч окончен\n"+
+scoreA+" : "+scoreB
+);
+
+
+}
+
+
+},1000);
+
 
 }
 
 
 
-// ======================
-// ОБНОВЛЕНИЕ
-// ======================
 
+// =====================
+// ОБНОВЛЕНИЕ
+// =====================
 
 function update(){
 
@@ -353,27 +462,24 @@ if(!playing)return;
 let me=players[0];
 
 
-// движение главного игрока
+// движение игрока
 
-me.x += joystick.x * me.speed;
-me.y += joystick.y * me.speed;
-
-
-
-// границы поля
-
-if(me.x<25) me.x=25;
-if(me.x>575) me.x=575;
-
-if(me.y<25) me.y=25;
-if(me.y>775) me.y=775;
+me.x+=joystick.x*me.speed;
+me.y+=joystick.y*me.speed;
 
 
 
-// движение ботов
+// границы
 
-players
-.filter(p=>!p.human)
+me.x=Math.max(25,Math.min(365,me.x));
+me.y=Math.max(25,Math.min(675,me.y));
+
+
+
+
+// боты
+
+players.filter(p=>!p.human)
 .forEach(bot=>{
 
 
@@ -381,16 +487,20 @@ let dx=ball.x-bot.x;
 let dy=ball.y-bot.y;
 
 
-let d=Math.sqrt(
-dx*dx+dy*dy
-);
+let d=Math.sqrt(dx*dx+dy*dy);
 
+
+let speed=bot.speed;
+
+
+if(difficulty==="hard")
+speed+=2;
 
 
 if(d>5){
 
-bot.x += dx/d*bot.speed*0.5;
-bot.y += dy/d*bot.speed*0.5;
+bot.x+=dx/d*speed*.4;
+bot.y+=dy/d*speed*.4;
 
 }
 
@@ -410,69 +520,39 @@ ball.vy*=0.98;
 
 
 
-// отскок от стен
+// стены
 
-if(ball.y<10){
+if(ball.y<10 || ball.y>690){
 
-ball.y=10;
-ball.vy*=-1;
-
-}
-
-
-if(ball.y>790){
-
-ball.y=790;
 ball.vy*=-1;
 
 }
 
 
 
-// гол только через ворота
+// ворота
 
-if(ball.x<0){
-
-if(ball.y>300 && ball.y<500){
+if(ball.x<0 && ball.y>260 && ball.y<440){
 
 scoreB++;
 
 resetBall();
 
 }
-else{
-
-ball.x=10;
-ball.vx*=-1;
-
-}
-
-}
 
 
 
-if(ball.x>600){
-
-
-if(ball.y>300 && ball.y<500){
+if(ball.x>390 && ball.y>260 && ball.y<440){
 
 scoreA++;
 
 resetBall();
 
 }
-else{
-
-ball.x=590;
-ball.vx*=-1;
-
-}
-
-}
 
 
 
-// столкновение игроков
+// столкновения
 
 players.forEach(p=>{
 
@@ -481,18 +561,13 @@ let dx=ball.x-p.x;
 let dy=ball.y-p.y;
 
 
-let d=Math.sqrt(
-dx*dx+dy*dy
-);
-
+let d=Math.sqrt(dx*dx+dy*dy);
 
 
 if(d<p.r+ball.r){
 
-
-ball.vx=dx/d*9;
-ball.vy=dy/d*9;
-
+ball.vx=dx/d*10;
+ball.vy=dy/d*10;
 
 }
 
@@ -501,29 +576,35 @@ ball.vy=dy/d*9;
 
 
 
-let a=document.getElementById("scoreA");
-let b=document.getElementById("scoreB");
-
-
-if(a)a.innerText=scoreA;
-if(b)b.innerText=scoreB;
-
+document.getElementById("scoreA").innerText=scoreA;
+document.getElementById("scoreB").innerText=scoreB;
 
 
 }
 
 
 
-// ======================
-// РИСОВКА
-// ======================
 
+function resetBall(){
+
+ball.x=195;
+ball.y=350;
+ball.vx=0;
+ball.vy=0;
+
+}
+
+
+
+
+// =====================
+// РИСОВКА
+// =====================
 
 function draw(){
 
 
 ctx.clearRect(0,0,W,H);
-
 
 
 // поле
@@ -532,60 +613,39 @@ ctx.fillStyle="#2e7d32";
 ctx.fillRect(0,0,W,H);
 
 
-
-// линия центра
+// центр
 
 ctx.strokeStyle="white";
-ctx.lineWidth=3;
+ctx.lineWidth=2;
+
 
 ctx.beginPath();
 
-ctx.moveTo(300,0);
-ctx.lineTo(300,800);
+ctx.moveTo(W/2,0);
+ctx.lineTo(W/2,H);
 
 ctx.stroke();
-
-
-
-// круг центра
-
-ctx.beginPath();
-
-ctx.arc(
-300,
-400,
-80,
-0,
-Math.PI*2
-);
-
-ctx.stroke();
-
 
 
 // ворота
 
 ctx.lineWidth=5;
 
+
 ctx.strokeRect(
 0,
-300,
-50,
-200
+260,
+45,
+180
 );
 
 
 ctx.strokeRect(
-550,
-300,
-50,
-200
+345,
+260,
+45,
+180
 );
-
-
-
-ctx.lineWidth=1;
-
 
 
 // игроки
@@ -616,7 +676,7 @@ ctx.textAlign="center";
 ctx.fillText(
 p.name,
 p.x,
-p.y-35
+p.y-30
 );
 
 
@@ -644,9 +704,7 @@ ctx.fill();
 
 requestAnimationFrame(loop);
 
-
 }
-
 
 
 
@@ -659,57 +717,20 @@ draw();
 
 
 
-// ======================
-// ВЫБОР ИГРОКА
-// ======================
 
-
-document
-.querySelectorAll(".player")
-.forEach(el=>{
-
-
-el.onclick=function(){
-
-
-document
-.querySelectorAll(".player")
-.forEach(x=>
-x.classList.remove("selected")
-);
-
-
-el.classList.add("selected");
-
-
-selectedHero=el.dataset.id;
-
-
-};
-
-
-});
-
-
-
-
-// ======================
+// =====================
 // СТАРТ
-// ======================
+// =====================
 
-
-document
-.getElementById("startBtn")
+document.getElementById("startBtn")
 .onclick=function(){
 
 
-document
-.getElementById("menu")
+document.getElementById("menu")
 .classList.add("hidden");
 
 
-document
-.getElementById("hud")
+document.getElementById("hud")
 .classList.remove("hidden");
 
 
@@ -724,60 +745,3 @@ playing=true;
 
 
 loop();
-let selectedTeam = "aziz";
-let difficulty = "easy";
-
-document.querySelectorAll(".team").forEach(team=>{
-
-team.onclick=function(){
-
-document.querySelectorAll(".team")
-.forEach(t=>t.classList.remove("selected"));
-
-team.classList.add("selected");
-
-selectedTeam = team.dataset.team;
-
-console.log("Команда:", selectedTeam);
-
-};
-
-});
-
-
-document.querySelectorAll(".difficulty").forEach(level=>{
-
-level.onclick=function(){
-
-document.querySelectorAll(".difficulty")
-.forEach(t=>t.classList.remove("selected"));
-
-level.classList.add("selected");
-
-difficulty = level.dataset.level;
-
-console.log("Сложность:", difficulty);
-
-};
-
-});
-
-
-
-document.getElementById("startBtn").onclick=function(){
-
-document.getElementById("menu")
-.classList.add("hidden");
-
-
-document.getElementById("hud")
-.classList.remove("hidden");
-
-
-console.log(
-"Старт игры",
-selectedTeam,
-difficulty
-);
-
-};
