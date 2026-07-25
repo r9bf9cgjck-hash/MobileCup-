@@ -4256,5 +4256,222 @@ window.onload = ()=>{
 
 
 };
+// =======================================
+// Часть 26
+// Меню внутри JavaScript
+// =======================================
 
+
+// ------------------------
+// СОЗДАНИЕ МЕНЮ
+// ------------------------
+
+function createMenu(){
+
+
+    let menu =
+    document.createElement("div");
+
+
+    menu.id="gameMenu";
+
+
+    menu.innerHTML = `
+
+    <h1>⚽ Match Cup</h1>
+
+
+    <h3>Команда</h3>
+
+    <button class="teamBtn" data-team="aziz">
+    Азиз + Хабиб
+    </button>
+
+
+    <button class="teamBtn" data-team="shamil">
+    Шамили
+    </button>
+
+
+
+    <h3>Режим</h3>
+
+    <button class="modeBtn" data-mode="2">
+    2 × 2
+    </button>
+
+
+    <button class="modeBtn" data-mode="3">
+    3 × 3
+    </button>
+
+
+    <button class="modeBtn" data-mode="4">
+    4 × 4
+    </button>
+
+
+
+    <h3>Сложность</h3>
+
+    <button class="difficultyBtn" data-level="easy">
+    Лёгкая
+    </button>
+
+
+    <button class="difficultyBtn" data-level="normal">
+    Нормальная
+    </button>
+
+
+    <button class="difficultyBtn" data-level="hard">
+    Сложная
+    </button>
+
+
+
+    <br><br>
+
+
+    <button id="startBtn">
+
+    ▶ Играть
+
+    </button>
+
+    `;
+
+
+
+    document.body.appendChild(menu);
+
+
+
+}
+
+
+
+// ------------------------
+// НАСТРОЙКА МЕНЮ
+// ------------------------
+
+function setupMenu(){
+
+
+
+    let teams =
+    document.querySelectorAll(
+        ".teamBtn"
+    );
+
+
+    teams.forEach(btn=>{
+
+
+        btn.onclick=()=>{
+
+
+            selectedTeam =
+            btn.dataset.team;
+
+
+        };
+
+
+    });
+
+
+
+
+
+    let modes =
+    document.querySelectorAll(
+        ".modeBtn"
+    );
+
+
+
+    modes.forEach(btn=>{
+
+
+        btn.onclick=()=>{
+
+
+            selectedMode =
+            Number(
+                btn.dataset.mode
+            );
+
+
+        };
+
+
+    });
+
+
+
+
+
+    let levels =
+    document.querySelectorAll(
+        ".difficultyBtn"
+    );
+
+
+
+    levels.forEach(btn=>{
+
+
+        btn.onclick=()=>{
+
+
+            selectedDifficulty =
+            btn.dataset.level;
+
+
+        };
+
+
+    });
+
+
+
+
+
+    document
+    .getElementById("startBtn")
+    .onclick=()=>{
+
+
+        document
+        .getElementById("gameMenu")
+        .remove();
+
+
+
+        startMatch();
+
+
+    };
+
+}
+
+
+
+// ------------------------
+// ЗАПУСК МЕНЮ
+// ------------------------
+
+window.addEventListener(
+"load",
+()=>{
+
+
+    createMenu();
+
+
+    setupMenu();
+
+
+});
 
