@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <meta charset="UTF-8">
@@ -7,24 +8,30 @@
 
 <title>MatchCupMobile</title>
 
+
 <style>
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-user-select:none;
 touch-action:none;
+user-select:none;
 }
 
 
 body{
 
-background:#101820;
+background:#111827;
+
 height:100vh;
+
 display:flex;
+
 justify-content:center;
+
 align-items:center;
+
 font-family:Arial;
 
 }
@@ -34,8 +41,10 @@ font-family:Arial;
 #game{
 
 position:relative;
-width:360px;
-height:640px;
+
+width:380px;
+
+height:650px;
 
 }
 
@@ -44,7 +53,9 @@ height:640px;
 canvas{
 
 background:#2e7d32;
+
 border:4px solid white;
+
 border-radius:20px;
 
 }
@@ -54,8 +65,9 @@ border-radius:20px;
 #menu{
 
 position:absolute;
-top:0;
+
 left:0;
+top:0;
 
 width:100%;
 height:100%;
@@ -65,13 +77,16 @@ background:rgba(0,0,0,.85);
 color:white;
 
 display:flex;
+
 flex-direction:column;
+
 align-items:center;
+
 justify-content:center;
 
-z-index:10;
-
 overflow:auto;
+
+z-index:10;
 
 }
 
@@ -79,16 +94,17 @@ overflow:auto;
 
 h1{
 
-font-size:38px;
+font-size:42px;
+
 color:#ffd700;
 
-margin-bottom:10px;
+margin-bottom:15px;
 
 }
 
 
 
-h3{
+h2{
 
 margin:10px;
 
@@ -100,17 +116,19 @@ margin:10px;
 
 width:300px;
 
+padding:15px;
+
+margin:6px;
+
 background:rgba(255,255,255,.15);
 
 border:2px solid transparent;
 
-border-radius:15px;
-
-padding:12px;
-
-margin:5px;
+border-radius:20px;
 
 text-align:center;
+
+font-size:18px;
 
 }
 
@@ -120,7 +138,35 @@ text-align:center;
 
 border-color:#ffd700;
 
-background:rgba(255,215,0,.25);
+background:rgba(255,215,0,.3);
+
+}
+
+
+
+.difficulty{
+
+width:300px;
+
+padding:12px;
+
+margin:5px;
+
+border-radius:15px;
+
+background:#333;
+
+text-align:center;
+
+}
+
+
+
+.difficulty.selected{
+
+background:#ffd700;
+
+color:black;
 
 }
 
@@ -128,32 +174,31 @@ background:rgba(255,215,0,.25);
 
 button{
 
-margin-top:10px;
+padding:14px 35px;
 
-padding:12px 30px;
+border:0;
 
-border:none;
-
-border-radius:30px;
+border-radius:40px;
 
 font-size:18px;
 
 font-weight:bold;
 
+margin-top:12px;
+
 }
 
 
-
-#start{
+#startBtn{
 
 background:#4caf50;
+
 color:white;
 
 }
 
 
-
-#career{
+#careerBtn{
 
 background:#ffd700;
 
@@ -166,6 +211,7 @@ background:#ffd700;
 position:absolute;
 
 top:10px;
+
 left:0;
 
 width:100%;
@@ -189,23 +235,17 @@ z-index:5;
 display:none!important;
 
 }
-
-
-
-/* джойстик */
-
-
-#joystick{
+  #joystick{
 
 position:absolute;
 
-left:20px;
+left:25px;
 
-bottom:25px;
+bottom:30px;
 
-width:110px;
+width:120px;
 
-height:110px;
+height:120px;
 
 border-radius:50%;
 
@@ -221,9 +261,9 @@ z-index:20;
 
 position:absolute;
 
-left:30px;
+left:35px;
 
-top:30px;
+top:35px;
 
 width:50px;
 
@@ -241,13 +281,13 @@ border-radius:50%;
 
 position:absolute;
 
-right:25px;
+right:30px;
 
-bottom:35px;
+bottom:45px;
 
-width:75px;
+width:85px;
 
-height:75px;
+height:85px;
 
 border-radius:50%;
 
@@ -273,9 +313,10 @@ z-index:20;
 
 
 <canvas id="canvas"
-width="360"
-height="640">
+width="380"
+height="650">
 </canvas>
+
 
 
 <div id="menu">
@@ -284,49 +325,65 @@ height="640">
 <h1>⚽ MatchCup</h1>
 
 
-<h3>Выбери команду</h3>
+<h2>Выбери команду</h2>
+
 
 
 <div class="team" data-team="aziz">
-
 🔥 Азиз + ⚔️ Хабиб
-
 </div>
 
 
 <div class="team" data-team="abdul">
-
 🦁 Абдул + ⚡ Мухаммад
-
 </div>
 
 
-<h3>Соперник</h3>
-
-
-<div class="team" data-enemy="shamil">
-
+<div class="team" data-team="shamil">
 🛡 Шамиль + 🛡 Шамиль Jr
-
 </div>
 
 
-<div class="team" data-enemy="mjr">
-
+<div class="team" data-team="mjr">
 ⚡ Мухаммад + ⚡ Мухаммад Jr
-
 </div>
-<button id="start">
+
+
+
+
+<h2>Сложность</h2>
+
+
+<div class="difficulty selected" data-level="easy">
+🟢 Лёгкая
+</div>
+
+
+<div class="difficulty" data-level="normal">
+🟡 Средняя
+</div>
+
+
+<div class="difficulty" data-level="hard">
+🔴 Сложная
+</div>
+
+
+
+<button id="startBtn">
 ⚽ Играть 2 VS 2
 </button>
 
 
-<button id="career">
+
+<button id="careerBtn">
 🏆 Карьера
 </button>
 
 
+
 </div>
+
 
 
 
@@ -346,8 +403,8 @@ height="640">
 <span id="scoreB">0</span> 🔵
 </div>
 
-</div>
 
+</div>
 
 
 
@@ -368,9 +425,12 @@ height="640">
 </div>
 
 
+
 <script src="game.js"></script>
+
 <script src="career.js"></script>
 
 
 </body>
+
 </html>
