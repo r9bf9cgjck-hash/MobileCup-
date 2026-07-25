@@ -4462,13 +4462,10 @@ function setupMenu(){
 // ЗАПУСК МЕНЮ
 // ------------------------
 
-window.addEventListener(
-"load",
-()=>{
+
 
 
     createMenu();
-
 
     setupMenu();
 
