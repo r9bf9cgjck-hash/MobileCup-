@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <meta charset="UTF-8">
@@ -8,28 +7,24 @@
 
 <title>MatchCupMobile</title>
 
-
 <style>
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-touch-action:none;
 user-select:none;
+touch-action:none;
 }
 
 
 body{
 
-background:#111827;
-
+background:#101820;
 height:100vh;
 
 display:flex;
-
 justify-content:center;
-
 align-items:center;
 
 font-family:Arial;
@@ -42,9 +37,8 @@ font-family:Arial;
 
 position:relative;
 
-width:380px;
-
-height:650px;
+width:390px;
+height:700px;
 
 }
 
@@ -52,10 +46,17 @@ height:650px;
 
 canvas{
 
+position:absolute;
+
+left:0;
+top:0;
+
+width:390px;
+height:700px;
+
 background:#2e7d32;
 
 border:4px solid white;
-
 border-radius:20px;
 
 }
@@ -72,19 +73,15 @@ top:0;
 width:100%;
 height:100%;
 
-background:rgba(0,0,0,.85);
-
-color:white;
+background:rgba(0,0,0,.88);
 
 display:flex;
-
 flex-direction:column;
 
 align-items:center;
-
 justify-content:center;
 
-overflow:auto;
+color:white;
 
 z-index:10;
 
@@ -104,17 +101,9 @@ margin-bottom:15px;
 
 
 
-h2{
+.card{
 
-margin:10px;
-
-}
-
-
-
-.team{
-
-width:300px;
+width:320px;
 
 padding:15px;
 
@@ -124,7 +113,7 @@ background:rgba(255,255,255,.15);
 
 border:2px solid transparent;
 
-border-radius:20px;
+border-radius:18px;
 
 text-align:center;
 
@@ -134,7 +123,7 @@ font-size:18px;
 
 
 
-.team.selected{
+.card.selected{
 
 border-color:#ffd700;
 
@@ -144,17 +133,17 @@ background:rgba(255,215,0,.3);
 
 
 
-.difficulty{
+.level{
 
-width:300px;
+width:320px;
 
-padding:12px;
+padding:10px;
 
-margin:5px;
-
-border-radius:15px;
+margin:4px;
 
 background:#333;
+
+border-radius:15px;
 
 text-align:center;
 
@@ -162,7 +151,7 @@ text-align:center;
 
 
 
-.difficulty.selected{
+.level.selected{
 
 background:#ffd700;
 
@@ -174,7 +163,9 @@ color:black;
 
 button{
 
-padding:14px 35px;
+margin-top:15px;
+
+padding:15px 40px;
 
 border:0;
 
@@ -184,9 +175,8 @@ font-size:18px;
 
 font-weight:bold;
 
-margin-top:12px;
-
 }
+
 
 
 #startBtn{
@@ -196,6 +186,7 @@ background:#4caf50;
 color:white;
 
 }
+
 
 
 #careerBtn{
@@ -241,15 +232,15 @@ position:absolute;
 
 left:25px;
 
-bottom:30px;
+bottom:35px;
 
 width:120px;
 
 height:120px;
 
-border-radius:50%;
-
 background:rgba(255,255,255,.25);
+
+border-radius:50%;
 
 z-index:20;
 
@@ -283,7 +274,7 @@ position:absolute;
 
 right:30px;
 
-bottom:45px;
+bottom:55px;
 
 width:85px;
 
@@ -312,10 +303,7 @@ z-index:20;
 <div id="game">
 
 
-<canvas id="canvas"
-width="380"
-height="650">
-</canvas>
+<canvas id="canvas"></canvas>
 
 
 
@@ -325,61 +313,77 @@ height="650">
 <h1>⚽ MatchCup</h1>
 
 
-<h2>Выбери команду</h2>
+<h3>Выбери команду</h3>
 
 
+<div class="card" data-team="aziz">
 
-<div class="team" data-team="aziz">
 🔥 Азиз + ⚔️ Хабиб
+
 </div>
 
 
-<div class="team" data-team="abdul">
+<div class="card" data-team="abdul">
+
 🦁 Абдул + ⚡ Мухаммад
+
 </div>
 
 
-<div class="team" data-team="shamil">
+<div class="card" data-team="shamil">
+
 🛡 Шамиль + 🛡 Шамиль Jr
+
 </div>
 
 
-<div class="team" data-team="mjr">
+<div class="card" data-team="muhammad">
+
 ⚡ Мухаммад + ⚡ Мухаммад Jr
+
 </div>
 
 
 
+<h3>Сложность</h3>
 
-<h2>Сложность</h2>
 
+<div class="level selected" data-level="easy">
 
-<div class="difficulty selected" data-level="easy">
 🟢 Лёгкая
+
 </div>
 
 
-<div class="difficulty" data-level="normal">
+<div class="level" data-level="normal">
+
 🟡 Средняя
+
 </div>
 
 
-<div class="difficulty" data-level="hard">
+<div class="level" data-level="hard">
+
 🔴 Сложная
+
 </div>
+
 
 
 
 <button id="startBtn">
+
 ⚽ Играть 2 VS 2
+
 </button>
 
 
 
 <button id="careerBtn">
-🏆 Карьера
-</button>
 
+🏆 Карьера
+
+</button>
 
 
 </div>
@@ -388,6 +392,7 @@ height="650">
 
 
 <div id="hud" class="hidden">
+
 
 <div>
 🔴 <span id="scoreA">0</span>
@@ -408,6 +413,7 @@ height="650">
 
 
 
+
 <div id="joystick">
 
 <div id="stick"></div>
@@ -417,12 +423,15 @@ height="650">
 
 
 <button id="shoot">
+
 ⚽
+
 </button>
 
 
 
 </div>
+
 
 
 
